@@ -1,4 +1,5 @@
 import type { AvatarData, AvatarOptions, DeriveOptions } from "./types.js";
+import { ensureInitSync } from "./wasm.js";
 
 /**
  * Deterministically derive avatar data from a 64-bit ID.
@@ -9,6 +10,8 @@ export function derive(
   optsOrGridW?: number | DeriveOptions,
   gridH?: number,
 ): AvatarData {
+  ensureInitSync();
+
   let opts: DeriveOptions;
   if (typeof optsOrGridW === "object") {
     opts = optsOrGridW;
@@ -67,6 +70,8 @@ export function derive(
  * Powered by the Go algorithm compiled to WASM.
  */
 export function renderSVG(id: string | bigint, options?: AvatarOptions): string {
+  ensureInitSync();
+
   const idStr = typeof id === "bigint" ? id.toString() : id;
   const size = options?.size ?? 256;
   const gw = options?.gridWidth ?? 5;
@@ -82,5 +87,6 @@ export function renderSVG(id: string | bigint, options?: AvatarOptions): string 
  * Returns the maximum grid dimension for the given settings.
  */
 export function maxGridSize(numColors: number, curves: boolean): number {
+  ensureInitSync();
   return globalThis.__pixelid.maxGridSize(numColors, curves);
 }

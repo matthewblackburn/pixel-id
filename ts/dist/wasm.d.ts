@@ -21,3 +21,13 @@ declare global {
 }
 export declare function ensureInit(): Promise<void>;
 export declare function isReady(): boolean;
+/**
+ * Synchronous init check. If WASM isn't initialized yet, kicks off init
+ * synchronously (for environments that support top-level await it will
+ * already be ready). Throws if called before WASM is ready.
+ *
+ * In practice, consumers should call `await ensureInit()` once at app
+ * startup (e.g. in main.tsx), then all subsequent `ensureInitSync()` calls
+ * in render paths will succeed without blocking.
+ */
+export declare function ensureInitSync(): void;

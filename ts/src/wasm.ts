@@ -79,3 +79,21 @@ async function doInit(): Promise<void> {
 export function isReady(): boolean {
   return typeof globalThis.__pixelid !== "undefined";
 }
+
+/**
+ * Synchronous init check. If WASM isn't initialized yet, kicks off init
+ * synchronously (for environments that support top-level await it will
+ * already be ready). Throws if called before WASM is ready.
+ *
+ * In practice, consumers should call `await ensureInit()` once at app
+ * startup (e.g. in main.tsx), then all subsequent `ensureInitSync()` calls
+ * in render paths will succeed without blocking.
+ */
+export function ensureInitSync(): void {
+  if (isReady()) return;
+  // Kick off async init if not started
+  ensureInit();
+  throw new Error(
+    "pixel-id WASM not initialized. Call `await ensureInit()` at app startup before using pixel-id functions."
+  );
+}
