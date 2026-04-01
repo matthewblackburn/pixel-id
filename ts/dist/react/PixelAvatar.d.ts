@@ -9,8 +9,11 @@ export interface PixelAvatarProps extends AvatarOptions {
  * React component that renders a pixel avatar as an inline SVG.
  * Uses Go compiled to WASM for guaranteed parity with the server.
  *
+ * Handles async WASM initialization automatically — renders nothing
+ * until the WASM module is ready, then displays the avatar.
+ *
  * ```tsx
  * <PixelAvatar id="123456789" size={64} numColors={2} curves />
  * ```
  */
-export declare function PixelAvatar({ id, className, style, ...options }: PixelAvatarProps): React.JSX.Element;
+export declare function PixelAvatar({ id, className, style, ...options }: PixelAvatarProps): React.JSX.Element | null;
