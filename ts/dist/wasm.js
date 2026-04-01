@@ -1,5 +1,4 @@
 import { WASM_BASE64 } from "./wasm-binary.js";
-import "./wasm_exec.js";
 function base64ToBytes(base64) {
     if (typeof atob === "function") {
         const binary = atob(base64);
@@ -21,6 +20,9 @@ export function ensureInit() {
     return initPromise;
 }
 async function doInit() {
+    // Dynamically load wasm_exec.js to avoid Vite pre-bundling issues
+    // with the IIFE side-effect import
+    await import("./wasm_exec.js");
     const go = new Go();
     let resolve;
     const ready = new Promise((r) => {
