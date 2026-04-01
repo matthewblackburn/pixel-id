@@ -14,22 +14,12 @@
 	// - Electron
 	// - Parcel
 
-	if (typeof global !== "undefined") {
-		// global already exists
-	} else if (typeof window !== "undefined") {
-		window.global = window;
-	} else if (typeof self !== "undefined") {
-		self.global = self;
-	} else {
-		throw new Error("cannot export Go (neither global, window nor self is defined)");
+	if (typeof globalThis.require === "undefined" && typeof require !== "undefined") {
+		globalThis.require = require;
 	}
 
-	if (!global.require && typeof require !== "undefined") {
-		global.require = require;
-	}
-
-	if (!global.fs && global.require) {
-		global.fs = require("node:fs");
+	if (!globalThis.fs && globalThis.require) {
+		globalThis.fs = require("node:fs");
 	}
 
 	const enosys = () => {
@@ -38,9 +28,9 @@
 		return err;
 	};
 
-	if (!global.fs) {
+	if (!globalThis.fs) {
 		let outputBuf = "";
-		global.fs = {
+		globalThis.fs = {
 			constants: { O_WRONLY: -1, O_RDWR: -1, O_CREAT: -1, O_TRUNC: -1, O_APPEND: -1, O_EXCL: -1 }, // unused
 			writeSync(fd, buf) {
 				outputBuf += decoder.decode(buf);
@@ -85,8 +75,8 @@
 		};
 	}
 
-	if (!global.process) {
-		global.process = {
+	if (!globalThis.process) {
+		globalThis.process = {
 			getuid() { return -1; },
 			getgid() { return -1; },
 			geteuid() { return -1; },
@@ -100,17 +90,17 @@
 		}
 	}
 
-	if (!global.crypto) {
+	if (!globalThis.crypto) {
 		const nodeCrypto = require("node:crypto");
-		global.crypto = {
+		globalThis.crypto = {
 			getRandomValues(b) {
 				nodeCrypto.randomFillSync(b);
 			},
 		};
 	}
 
-	if (!global.performance) {
-		global.performance = {
+	if (!globalThis.performance) {
+		globalThis.performance = {
 			now() {
 				const [sec, nsec] = process.hrtime();
 				return sec * 1000 + nsec / 1000000;
@@ -118,12 +108,12 @@
 		};
 	}
 
-	if (!global.TextEncoder) {
-		global.TextEncoder = require("node:util").TextEncoder;
+	if (!globalThis.TextEncoder) {
+		globalThis.TextEncoder = require("node:util").TextEncoder;
 	}
 
-	if (!global.TextDecoder) {
-		global.TextDecoder = require("node:util").TextDecoder;
+	if (!globalThis.TextDecoder) {
+		globalThis.TextDecoder = require("node:util").TextDecoder;
 	}
 
 	// End of polyfills for common API.
@@ -134,7 +124,7 @@
 	var logLine = [];
 	const wasmExit = {}; // thrown to exit via proc_exit (not an error)
 
-	global.Go = class {
+	globalThis.Go = class {
 		constructor() {
 			this._callbackTimeouts = new Map();
 			this._nextCallbackTimeoutID = 1;
@@ -475,7 +465,7 @@
 				null,
 				true,
 				false,
-				global,
+				globalThis,
 				this,
 			];
 			this._goRefCounts = []; // number of references that Go has to a JS value, indexed by reference id
@@ -530,11 +520,11 @@
 	}
 
 	if (
-		global.require &&
-		global.require.main === module &&
-		global.process &&
-		global.process.versions &&
-		!global.process.versions.electron
+		globalThis.require &&
+		globalThis.require.main === module &&
+		globalThis.process &&
+		globalThis.process.versions &&
+		!globalThis.process.versions.electron
 	) {
 		if (process.argv.length != 3) {
 			console.error("usage: go_js_wasm_exec [wasm binary] [arguments]");
