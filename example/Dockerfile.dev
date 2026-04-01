@@ -1,0 +1,14 @@
+FROM golang:1.24-alpine
+
+RUN go install github.com/air-verse/air@v1.61.7
+
+WORKDIR /workspace/example
+
+COPY go/ /workspace/go/
+COPY example/ .
+
+RUN go mod tidy && go mod download
+
+EXPOSE 8080
+
+CMD ["air", "-c", ".air.toml"]

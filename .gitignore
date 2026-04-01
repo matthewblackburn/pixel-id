@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.exe
+.DS_Store
+tmp/
+# WASM intermediate build output
+wasm/pixelid.wasm
+wasm/wasm_exec.js
