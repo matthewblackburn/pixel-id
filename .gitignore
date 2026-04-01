@@ -1,5 +1,6 @@
 node_modules/
-dist/
+# Keep ts/dist/ committed for GitHub-based installs
+!ts/dist/
 *.exe
 .DS_Store
 tmp/
