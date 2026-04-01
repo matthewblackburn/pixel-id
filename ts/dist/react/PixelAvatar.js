@@ -23,5 +23,5 @@ export function PixelAvatar({ id, className, style, ...options }) {
     if (!ready)
         return null;
     const svg = renderSVG(id, options);
-    return (_jsx("span", { className: className, style: { display: "inline-block", lineHeight: 0, ...style }, dangerouslySetInnerHTML: { __html: svg } }));
+    return (_jsx("span", { className: className, style: { display: "inline-block", lineHeight: 0, borderRadius: "20%", overflow: "hidden", ...style }, dangerouslySetInnerHTML: { __html: svg } }));
 }

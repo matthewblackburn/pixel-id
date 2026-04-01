@@ -40,7 +40,7 @@ export function PixelAvatar({
   return (
     <span
       className={className}
-      style={{ display: "inline-block", lineHeight: 0, ...style }}
+      style={{ display: "inline-block", lineHeight: 0, borderRadius: "20%", overflow: "hidden", ...style }}
       dangerouslySetInnerHTML={{ __html: svg }}
     />
   );
