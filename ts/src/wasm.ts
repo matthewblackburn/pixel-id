@@ -1,4 +1,4 @@
-import { WASM_BASE64 } from "./wasm-binary";
+import { WASM_BASE64 } from "./wasm-binary.js";
 import "./wasm_exec.js";
 
 declare global {
@@ -48,7 +48,8 @@ function base64ToBytes(base64: string): Uint8Array {
     return bytes;
   }
   // Node.js fallback
-  return new Uint8Array(Buffer.from(base64, "base64"));
+  const buf = (globalThis as any).Buffer?.from(base64, "base64");
+  return buf ? new Uint8Array(buf) : new Uint8Array();
 }
 
 let initPromise: Promise<void> | null = null;
@@ -69,7 +70,7 @@ async function doInit(): Promise<void> {
   globalThis.__pixelid_resolve = () => resolve!();
 
   const wasmBytes = base64ToBytes(WASM_BASE64);
-  const result = await WebAssembly.instantiate(wasmBytes, go.importObject);
+  const result = await WebAssembly.instantiate(wasmBytes, go.importObject) as any;
   go.run(result.instance);
 
   await ready;

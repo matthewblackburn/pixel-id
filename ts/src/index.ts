@@ -1,12 +1,12 @@
-import { ensureInit } from "./wasm";
+import { ensureInit } from "./wasm.js";
 
-export type { AvatarData, AvatarOptions } from "./types";
-export type { DeriveOptions } from "./types";
+export type { AvatarData, AvatarOptions } from "./types.js";
+export type { DeriveOptions } from "./types.js";
 
 // Auto-initialize WASM on module load.
 // In ESM with top-level await, this blocks until ready.
 // Consumers never need to call this manually.
 await ensureInit();
 
-export { derive, maxGridSize } from "./api";
-export { renderSVG } from "./api";
+export { derive, maxGridSize } from "./api.js";
+export { renderSVG } from "./api.js";

@@ -1,6 +1,6 @@
 import React from "react";
-import { renderSVG } from "../api";
-import type { AvatarOptions } from "../types";
+import { renderSVG } from "../api.js";
+import type { AvatarOptions } from "../types.js";
 
 export interface PixelAvatarProps extends AvatarOptions {
   id: string | bigint;

@@ -1,0 +1,29 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash",
+            "Read",
+            "Edit",
+            "Write",
+            "Glob",
+            "Grep",
+            "WebFetch",
+            "WebSearch",
+            "Task",
+            "Skill(ralph-loop:ralph-loop)",
+            "Skill(ralph-loop:cancel-ralph)"
+        ]
+    },
+    "hooks": {
+        "Stop": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/notify-slack.sh"
+                    }
+                ]
+            }
+        ]
+    }
+}

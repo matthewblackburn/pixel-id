@@ -1,4 +1,4 @@
-import type { AvatarData, AvatarOptions, DeriveOptions } from "./types";
+import type { AvatarData, AvatarOptions, DeriveOptions } from "./types.js";
 /**
  * Deterministically derive avatar data from a 64-bit ID.
  * Powered by the Go algorithm compiled to WASM.

@@ -1,5 +1,5 @@
 import React from "react";
-import type { AvatarOptions } from "../types";
+import type { AvatarOptions } from "../types.js";
 export interface PixelAvatarProps extends AvatarOptions {
     id: string | bigint;
     className?: string;

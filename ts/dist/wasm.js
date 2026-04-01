@@ -1,4 +1,4 @@
-import { WASM_BASE64 } from "./wasm-binary";
+import { WASM_BASE64 } from "./wasm-binary.js";
 import "./wasm_exec.js";
 function base64ToBytes(base64) {
     if (typeof atob === "function") {

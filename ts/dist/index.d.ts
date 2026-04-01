@@ -1,4 +1,4 @@
-export type { AvatarData, AvatarOptions } from "./types";
-export type { DeriveOptions } from "./types";
-export { derive, maxGridSize } from "./api";
-export { renderSVG } from "./api";
+export type { AvatarData, AvatarOptions } from "./types.js";
+export type { DeriveOptions } from "./types.js";
+export { derive, maxGridSize } from "./api.js";
+export { renderSVG } from "./api.js";

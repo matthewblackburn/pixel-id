@@ -1,2 +1,2 @@
-export { PixelAvatar } from "./PixelAvatar";
-export type { PixelAvatarProps } from "./PixelAvatar";
+export { PixelAvatar } from "./PixelAvatar.js";
+export type { PixelAvatarProps } from "./PixelAvatar.js";
