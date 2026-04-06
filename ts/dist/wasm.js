@@ -1,4 +1,5 @@
 import { WASM_BASE64 } from "./wasm-binary.js";
+import { WASM_EXEC_SOURCE } from "./wasm_exec_source.js";
 function base64ToBytes(base64) {
     if (typeof atob === "function") {
         const binary = atob(base64);
@@ -20,9 +21,12 @@ export function ensureInit() {
     return initPromise;
 }
 async function doInit() {
-    // Dynamic import — wasm_exec.js has `export {}` so bundlers treat it as ESM
-    // (no Proxy wrapper needed). The IIFE sets globalThis.Go as a side effect.
-    await import("./wasm_exec.js");
+    // Evaluate wasm_exec inline to avoid bundler module wrapping issues.
+    // wasm_exec.js is an IIFE that sets globalThis.Go — importing it as a
+    // module causes Vite/Rollup to wrap it in a Proxy that recurses infinitely.
+    if (typeof globalThis.Go === "undefined") {
+        new Function(WASM_EXEC_SOURCE)();
+    }
     const go = new Go();
     let resolve;
     const ready = new Promise((r) => {
