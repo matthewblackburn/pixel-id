@@ -541,3 +541,7 @@
 		});
 	}
 })();
+
+// ESM export so bundlers (Vite/Rollup) don't wrap this in a Proxy.
+// The IIFE above sets globalThis.Go as a side effect.
+export {};
