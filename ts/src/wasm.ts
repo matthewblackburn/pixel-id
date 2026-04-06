@@ -1,4 +1,8 @@
 import { WASM_BASE64 } from "./wasm-binary.js";
+// Static import ensures wasm_exec.js IIFE runs before doInit().
+// Dynamic import("./wasm_exec.js") causes infinite Proxy.get loop
+// when bundled by Vite/Rollup for production builds.
+import "./wasm_exec.js";
 
 declare global {
   // Set by wasm_exec.js
@@ -60,9 +64,6 @@ export function ensureInit(): Promise<void> {
 }
 
 async function doInit(): Promise<void> {
-  // Dynamically load wasm_exec.js to avoid Vite pre-bundling issues
-  // with the IIFE side-effect import
-  await import("./wasm_exec.js");
   const go = new Go();
 
   let resolve: () => void;

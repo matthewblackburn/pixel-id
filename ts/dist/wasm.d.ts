@@ -1,3 +1,4 @@
+import "./wasm_exec.js";
 declare global {
     var Go: any;
     var __pixelid: {
